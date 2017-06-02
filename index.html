@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>test5</title>
+</head>
+<link rel="stylesheet" type="text/css" href="font-style.css">
+<style type="text/css">
+	#js-pre {
+		width: 500px;
+		border: 1px solid #ccc;
+	}
+	#js-pre:after {
+		content: '';
+		display: block;
+		height: 0;
+		visibility: hidden;
+		clear: both;
+	}
+	.img-box {
+		float: left; 
+	}
+	.img-border {
+		position: relative;
+		box-sizing: border-box;
+		height: 100px;
+		width: 100px;
+		border: 1px solid #ccc
+	}
+	.js-upload_delete {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+	.red {
+		font-size: 20px;
+		color: red;
+	}
+	img {
+		height: 100px;
+		width: 100%;
+	}
+</style>
+<body>
+<input type="file" name="fuck" multiple="" id="js-file">
+<div id="js-pre"></div>
+<button id="js-button" type="button">提交</button>
+<div></div>
+	<!-- 引入jq -->
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="F_File1.2.js"></script>
+<script type="text/javascript">
+	/*等比例缩放图片的函数
+		 *param{object} ImgD 需要缩放的图片
+		 *param{number} iwidth 预计图片的宽度
+		 *param{number} iheight 预计的图片的高度
+		 */
+		function DrawImage(ImgD,iwidth,iheight){
+			var image=new Image();//新建一个image
+			image.src=ImgD.src;//新建的image与传入的image关联,便于调整传入图片的比例
+			if(image.width>0 && image.height>0){//如果传入图片大于预计图片大小进行等比例缩放 否则不进行能比例缩放
+			  if(image.width/image.height>= iwidth/iheight){
+				  if(image.width>iwidth){//如果宽度大于预计,基于宽度进行等比例缩放
+					  ImgD.width=iwidth;
+					  ImgD.height=(image.height*iwidth)/image.width;
+				  }else{
+					  ImgD.width=image.width;
+					  ImgD.height=image.height;
+				  }
+			  }else{
+				  if(image.height>iheight){//如果传入图片高度大于预计,则基于高度进行等比例缩放
+					  ImgD.height=iheight;
+					  ImgD.width=(image.width*iheight)/image.height;
+				  }else{
+					  ImgD.width=image.width;
+					  ImgD.height=image.height;
+				  }
+			  }
+			}
+		}
+	$(function(){
+		var f = new FFile({
+			name: 'fuck',								//唯一名,用来与其他文件区分
+			fileInput: '#js-file',				//html file控件
+			upButton: '#js-button',					//提交按钮
+			pre: '#js-pre',									//预览地址
+			url: 'fuck.php',									//ajax地址						
+			onSuccess: function(res){
+				console.log(res)
+			},	//文件全部上传完毕时
+		})
+	})
+</script>
+</body>
+</html>
